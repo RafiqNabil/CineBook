@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
+import 'screens/movie_details_screen.dart';
+import 'models/movie.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
   GoRouterRefreshStream(Stream<dynamic> stream) {
@@ -58,6 +60,19 @@ final GoRouter router = GoRouter(
       path: '/signup',
       name: 'signup',
       builder: (context, state) => SignupScreen(),
+    ),
+    GoRoute(
+      path: '/movie_detail',
+      name: 'movie_detail',
+      builder: (context, state) {
+        final movie = state.extra;
+        if (movie is! Movie) {
+          return Scaffold(
+            body: Center(child: Text('Error: Movie data is missing')),
+          );
+        }
+        return MovieDetailsScreen(movie: movie);
+      },
     ),
   ],
 );
