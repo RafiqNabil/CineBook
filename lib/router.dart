@@ -9,6 +9,7 @@ import 'screens/movie_details_screen.dart';
 import 'models/movie.dart';
 import 'screens/showtime_screen.dart';
 import 'screens/seat_selection_screen.dart';
+import 'screens/booking_history_screen.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
   GoRouterRefreshStream(Stream<dynamic> stream) {
@@ -116,6 +117,18 @@ final GoRouter router = GoRouter(
           movie: extra['movie'],
           showtime: extra['showtime'],
         );
+      },
+    ),
+    GoRoute(
+      path: '/booking_history',
+      name: 'booking_history',
+      builder: (context, state) {
+        if (FirebaseAuth.instance.currentUser == null) {
+          return Scaffold(
+            body: Center(child: Text('Please log in to view booking history')),
+          );
+        }
+        return BookingHistoryScreen();
       },
     ),
   ],
