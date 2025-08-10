@@ -7,6 +7,8 @@ import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
 import 'screens/movie_details_screen.dart';
 import 'models/movie.dart';
+import 'screens/showtime_screen.dart';
+import 'screens/seat_selection_screen.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
   GoRouterRefreshStream(Stream<dynamic> stream) {
@@ -72,6 +74,48 @@ final GoRouter router = GoRouter(
           );
         }
         return MovieDetailsScreen(movie: movie);
+      },
+    ),
+    GoRoute(
+      path: '/showtime',
+      name: 'showtime',
+      builder: (context, state) {
+        if (FirebaseAuth.instance.currentUser == null) {
+          return Scaffold(
+            body: Center(child: Text('Please log in to view showtimes')),
+          );
+        }
+        final movie = state.extra;
+        if (movie is! Movie) {
+          return Scaffold(
+            body: Center(child: Text('Error: Movie data is missing')),
+          );
+        }
+        return ShowtimeScreen(movie: movie);
+      },
+    ),
+    GoRoute(
+      path: '/seat_selection',
+      builder: (context, state) {
+        if (FirebaseAuth.instance.currentUser == null) {
+          return Scaffold(
+            body: Center(child: Text('Please log in to select seats')),
+          );
+        }
+
+        final extra = state.extra;
+        if (extra is! Map<String, dynamic> ||
+            extra['movie'] == null ||
+            extra['showtime'] == null) {
+          return Scaffold(
+            body: Center(child: Text('Missing movie or showtime data')),
+          );
+        }
+
+        return SeatSelectionScreen(
+          movie: extra['movie'],
+          showtime: extra['showtime'],
+        );
       },
     ),
   ],
