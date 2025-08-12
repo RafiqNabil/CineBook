@@ -10,6 +10,7 @@ import 'models/movie.dart';
 import 'screens/showtime_screen.dart';
 import 'screens/seat_selection_screen.dart';
 import 'screens/booking_history_screen.dart';
+import 'screens/user_profile_screen.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
   GoRouterRefreshStream(Stream<dynamic> stream) {
@@ -129,6 +130,13 @@ final GoRouter router = GoRouter(
           );
         }
         return BookingHistoryScreen();
+      },
+    ),
+    GoRoute(
+      path: '/user_profile',
+      name: 'user_profile',
+      builder: (context, state) {
+        return UserProfileScreen();
       },
     ),
   ],
