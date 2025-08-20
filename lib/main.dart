@@ -11,23 +11,17 @@ import 'providers/theme_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Load environment variables from .env file
+
   await dotenv.load(fileName: "assets/dotenv.env");
   await Hive.initFlutter();
   await Hive.openBox('bookings');
-  // Once all necessary services are initialized, run the main application widget.
+
   runApp(CineBookRoot());
 }
 
-/// The root widget of the CineBook application.
-/// It sets up the theme provider and handles user authentication state
-/// to navigate between login and home screens.
 class CineBookRoot extends StatelessWidget {
-  const CineBookRoot({
-    super.key,
-  }); // Added const constructor for better performance
+  const CineBookRoot({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +32,6 @@ class CineBookRoot extends StatelessWidget {
           return StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
-              // We don’t need to do anything with snapshot.data directly here.
-              // Just listening is enough to rebuild the widget tree on auth changes.
               return MaterialApp.router(
                 routerConfig: router,
                 title: 'CineBook',
@@ -52,6 +44,7 @@ class CineBookRoot extends StatelessWidget {
                   brightness: Brightness.dark,
                   primarySwatch: Colors.deepPurple,
                 ),
+                themeMode: themeProvider.themeMode,
               );
             },
           );
