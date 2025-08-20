@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -17,6 +18,10 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Login successful!")));
       context.push('/');
     } catch (e) {
       ScaffoldMessenger.of(
@@ -30,6 +35,14 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/bg_image.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           Container(color: Colors.black.withAlpha(128)),
 
           Center(
@@ -118,6 +131,31 @@ class _LoginScreenState extends State<LoginScreen> {
                               onPressed: () => context.push('/signup'),
                               child: Text(
                                 'Register',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Colors.white,
+                                  decorationThickness: 3,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Not interested now?',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () => context.push('/'),
+                              child: Text(
+                                'Visit',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.white,
