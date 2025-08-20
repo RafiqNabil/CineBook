@@ -10,7 +10,62 @@ class MovieDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        final user = snapshot.data;
     return Scaffold(
+      drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 95, 21, 21),
+                  ),
+                  child: Text(
+                    'CineBook',
+                    style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                ),
+                UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 95, 21, 21),
+                  ),
+                  accountName: Text('Welcome!'),
+                  accountEmail: Text(user?.email ?? 'Guest'),
+                  currentAccountPicture: user != null
+                      ? CircleAvatar(child: Text(user.email![0].toUpperCase()))
+                      : null,
+                ),
+                if (user != null) ...[
+                  ListTile(
+                    title: Text("Profile"),
+                    onTap: () => context.pushNamed('user_profile'),
+                  ),
+                  ListTile(title: Text('Home'), onTap: () => context.go('/')),
+                  ListTile(
+                    title: Text("Booking History"),
+                    onTap: () => context.pushNamed('booking_history'),
+                  ),
+                  ListTile(
+                    title: Text('Logout'),
+                    onTap: () async {
+                      await FirebaseAuth.instance.signOut();
+                      if (!context.mounted) return;
+                      context.go('/'); // Redirect to Home after logout
+                    },
+                  ),
+                ] else ...[
+                  ListTile(title: Text('Home'), onTap: () => context.go('/')),
+                  ListTile(
+                    title: Text('Login/Register'),
+                    onTap: () => context.push('/login'),
+                  ),
+                ],
+              ],
+            ),
+          ),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 95, 21, 21),
