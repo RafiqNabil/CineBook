@@ -74,7 +74,6 @@ class MovieDetailsScreen extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
         titleTextStyle: TextStyle(
           fontSize: 24,
-          //fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
         actions: [
@@ -83,7 +82,6 @@ class MovieDetailsScreen extends StatelessWidget {
             builder: (context, snapshot) {
               final user = snapshot.data;
               if (user == null) {
-                // Not logged in: show Login/Register button
                 return IconButton(
                   icon: const Icon(Icons.login),
                   onPressed: () {
@@ -91,7 +89,6 @@ class MovieDetailsScreen extends StatelessWidget {
                   },
                 );
               } else {
-                // Logged in: show both Booking History and Logout buttons
                 return Row(
                   children: [
                     IconButton(
