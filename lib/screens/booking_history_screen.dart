@@ -48,6 +48,14 @@ class BookingHistoryScreen extends StatelessWidget {
       ),
       body: Stack(
         children: [
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/bg_image_9.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           ValueListenableBuilder(
             valueListenable: bookingBox.listenable(),
             builder: (context, box, _) {
