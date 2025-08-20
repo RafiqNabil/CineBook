@@ -22,7 +22,7 @@ class SeatSelectionScreen extends StatefulWidget {
 
 class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
   final List<String> selectedSeats = [];
-  final int seatPrice = 200; // You can make this dynamic if needed
+  final int seatPrice = 200;
 
   void toggleSeat(String seat) {
     setState(() {
@@ -40,11 +40,11 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
         FirebaseAuth.instance.currentUser?.email ?? 'Unknown User';
 
     final booking = {
-      'title': widget.movie.title, // Correct movie title
-      'showtime': widget.showtime, // Correct showtime string
-      'seats': selectedSeats, // List of seats
-      'timestamp': bookingTime, // ISO timestamp
-      'userEmail': userEmail, // Logged in user's email
+      'title': widget.movie.title,
+      'showtime': widget.showtime,
+      'seats': selectedSeats,
+      'timestamp': bookingTime,
+      'userEmail': userEmail,
     };
 
     await bookingBox.add(booking);
@@ -68,7 +68,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
       'userEmail': userEmail,
     });
     if (!mounted) return;
-    context.go('/booking_history'); // or Navigator.pop(context);
+    context.go('/booking_history');
   }
 
   List<String> bookedSeats = [];
@@ -138,28 +138,22 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => context.pop(), // from GoRouter
+          onPressed: () => context.pop(),
         ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 95, 21, 21),
         title: const Text('CineBook'),
         iconTheme: IconThemeData(color: Colors.white),
-        titleTextStyle: TextStyle(
-          fontSize: 24,
-          //fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
+        titleTextStyle: TextStyle(fontSize: 24, color: Colors.white),
         actions: [
           IconButton(
             icon: const Icon(Icons.history),
-            //color: Colors.white,
             onPressed: () {
               context.push('/booking_history');
             },
           ),
           IconButton(
             icon: const Icon(Icons.logout),
-            //color: Colors.white,
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
             },
@@ -182,11 +176,9 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 600),
                 child: Column(
-                  mainAxisSize: MainAxisSize
-                      .min, // let column shrink-wrap content vertically
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // Movie poster at top
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.network(
@@ -220,14 +212,11 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
 
                     const SizedBox(height: 16),
 
-                    // Seat grid — wrap in SizedBox to limit height, avoid infinite height error in scroll view
                     LayoutBuilder(
                       builder: (context, constraints) {
                         return ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxHeight:
-                                constraints.maxHeight *
-                                0.5, // Use half of the screen height
+                            maxHeight: constraints.maxHeight * 0.5,
                           ),
                           child: GridView.count(
                             physics: const NeverScrollableScrollPhysics(),
