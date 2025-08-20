@@ -184,15 +184,15 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                       child: Image.network(
                         widget.movie.imageUrl,
                         fit: BoxFit.cover,
-                        width: 200, // fixed width for poster
-                        height: 300, // fixed height for poster
+                        width: 200,
+                        height: 300,
                       ),
                     ),
 
                     const SizedBox(height: 16),
 
                     Text(
-                      'Select Your Seats',
+                      'Please Select Your Seats',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -233,12 +233,10 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: isBooked
-                                        ? Colors
-                                              .red // 🔴 booked
+                                        ? Colors.red
                                         : isSelected
-                                        ? Colors
-                                              .green // 🟢 selected
-                                        : Colors.grey[300], // ⚪ default
+                                        ? Colors.green
+                                        : Colors.grey[300], //default
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Center(
