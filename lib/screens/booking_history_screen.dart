@@ -12,6 +12,34 @@ class BookingHistoryScreen extends StatelessWidget {
     final currentUserEmail = FirebaseAuth.instance.currentUser?.email;
 
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 95, 21, 21),
+              ),
+              child: Text(
+                'CineBook',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+            ListTile(
+              title: Text("Profile"),
+              onTap: () => context.pushNamed('user_profile'),
+            ),
+            ListTile(title: Text('Home'), onTap: () => context.go('/')),
+            ListTile(
+              title: Text('Logout'),
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                context.go('/'); // Redirect to Home after logout
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: const Text('Booking History'),
         centerTitle: true,
