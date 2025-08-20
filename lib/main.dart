@@ -5,6 +5,8 @@ import 'firebase_options.dart';
 import 'router.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
+import 'providers/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,25 +31,32 @@ class CineBookRoot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        // We don’t need to do anything with snapshot.data directly here.
-        // Just listening is enough to rebuild the widget tree on auth changes.
-        return MaterialApp.router(
-          routerConfig: router,
-          title: 'CineBook',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.deepPurple,
-            brightness: Brightness.light,
-          ),
-          darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            primarySwatch: Colors.deepPurple,
-          ),
-        );
-      },
+    return ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, _) {
+          return StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              // We don’t need to do anything with snapshot.data directly here.
+              // Just listening is enough to rebuild the widget tree on auth changes.
+              return MaterialApp.router(
+                routerConfig: router,
+                title: 'CineBook',
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                  primarySwatch: Colors.deepPurple,
+                  brightness: Brightness.light,
+                ),
+                darkTheme: ThemeData(
+                  brightness: Brightness.dark,
+                  primarySwatch: Colors.deepPurple,
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
