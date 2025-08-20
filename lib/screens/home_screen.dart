@@ -5,6 +5,7 @@ import '../models/movie.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -99,7 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
             builder: (context, snapshot) {
               final user = snapshot.data;
               if (user == null) {
-                // Not logged in: show Login/Register button
                 return IconButton(
                   icon: const Icon(Icons.login),
                   onPressed: () {
@@ -107,7 +107,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 );
               } else {
-                // Logged in: show both Booking History and Logout buttons
                 return Row(
                   children: [
                     IconButton(
@@ -133,6 +132,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
       body: Stack(
         children: [
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/bg_image_8.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           _isLoading
               ? const Center(child: CircularProgressIndicator())
               : LayoutBuilder(
