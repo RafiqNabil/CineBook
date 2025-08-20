@@ -11,7 +11,7 @@ class ShowtimeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final showtimes = ['12:00 PM', '3:00 PM', '6:00 PM', '9:00 PM'];
+    final showtimes = ['11:00 PM', '2:00 PM', '5:00 PM', '8:00 PM'];
 
     return Scaffold(
       drawer: Drawer(
@@ -47,7 +47,7 @@ class ShowtimeScreen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => context.pop(), // from GoRouter
+          onPressed: () => context.pop(),
         ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 95, 21, 21),
@@ -103,7 +103,7 @@ class ShowtimeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     const Text(
-                      'Select a Showtime',
+                      'Showtimes',
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
