@@ -7,6 +7,10 @@ import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
 import 'screens/movie_details_screen.dart';
 import 'models/movie.dart';
+import 'screens/showtime_screen.dart';
+import 'screens/seat_selection_screen.dart';
+import 'screens/booking_history_screen.dart';
+import 'screens/user_profile_screen.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
   GoRouterRefreshStream(Stream<dynamic> stream) {
@@ -72,6 +76,67 @@ final GoRouter router = GoRouter(
           );
         }
         return MovieDetailsScreen(movie: movie);
+      },
+    ),
+    GoRoute(
+      path: '/showtime',
+      name: 'showtime',
+      builder: (context, state) {
+        if (FirebaseAuth.instance.currentUser == null) {
+          return Scaffold(
+            body: Center(child: Text('Please log in to view showtimes')),
+          );
+        }
+        final movie = state.extra;
+        if (movie is! Movie) {
+          return Scaffold(
+            body: Center(child: Text('Error: Movie data is missing')),
+          );
+        }
+        return ShowtimeScreen(movie: movie);
+      },
+    ),
+    GoRoute(
+      path: '/seat_selection',
+      builder: (context, state) {
+        if (FirebaseAuth.instance.currentUser == null) {
+          return Scaffold(
+            body: Center(child: Text('Please log in to select seats')),
+          );
+        }
+
+        final extra = state.extra;
+        if (extra is! Map<String, dynamic> ||
+            extra['movie'] == null ||
+            extra['showtime'] == null) {
+          return Scaffold(
+            body: Center(child: Text('Missing movie or showtime data')),
+          );
+        }
+
+        return SeatSelectionScreen(
+          movie: extra['movie'],
+          showtime: extra['showtime'],
+        );
+      },
+    ),
+    GoRoute(
+      path: '/booking_history',
+      name: 'booking_history',
+      builder: (context, state) {
+        if (FirebaseAuth.instance.currentUser == null) {
+          return Scaffold(
+            body: Center(child: Text('Please log in to view booking history')),
+          );
+        }
+        return BookingHistoryScreen();
+      },
+    ),
+    GoRoute(
+      path: '/user_profile',
+      name: 'user_profile',
+      builder: (context, state) {
+        return UserProfileScreen();
       },
     ),
   ],
