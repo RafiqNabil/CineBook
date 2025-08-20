@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 
 class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
   @override
   _SignupScreenState createState() => _SignupScreenState();
 }
@@ -13,6 +14,12 @@ class _SignupScreenState extends State<SignupScreen> {
   final _confirmController = TextEditingController();
 
   Future<void> _signup() async {
+    if (_passwordController.text != _confirmController.text) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Passwords do not match")));
+      return;
+    }
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
@@ -31,6 +38,14 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       body: Stack(
         children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/bg_image_2.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           Container(color: Colors.black.withAlpha(179)),
           Center(
             child: SingleChildScrollView(
